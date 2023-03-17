@@ -22,71 +22,69 @@ Packing pizza Hawaii  упаковка пиццы
 
 
     public static void main(String[] args) {
+        PizzaFactory factory = new PizzaFactory();
 
-        System.out.println("We have 3 Pizzas: Mozzarella, Salami, Hawaii");
-        System.out.println("What Pizza would you like to order?");
+        String salami = "SALAMI";
+        PizzaType pizzaType = PizzaType.valueOf(salami);//peredelat stroku w enum dlja switch
+        Pizza pizzaSalami = factory.createPizza(pizzaType);
+        pizzaSalami.orderPizza();
+        System.out.println("_______________________________________________________________");
+        String hawaii = "HAWAII";
+        PizzaType pizzaType1 = PizzaType.valueOf(hawaii);
+        Pizza pizzaHawaii = factory.createPizza(pizzaType1);
+        pizzaHawaii.orderPizza();
+        System.out.println("________________________________________________________________");
+        String mozzarella = "MOZZARELLA";
+        PizzaType pizzaType2 = PizzaType.valueOf(mozzarella);
+        Pizza pizzaMozzarella = factory.createPizza(pizzaType2);
+        pizzaMozzarella.orderPizza();
+
+
+   /*
+Preparing Pizza with salami, cheese and tomatoes
+Backing Pizza Salami
+Packing Pizza Salami
+_______________________________________________________________
+Preparing Pizza Hawaii with pineapple and cheese
+Backing Pizza Hawaii
+Packing Pizza Hawaii
+________________________________________________________________
+Preparing Pizza with Mozzarella cheese
+Backing Pizza Mozzarella
+Packing Pizza Mozzarella
+    */
+
+
+        System.out.println("----------------------------------------------------------------");
+
         Scanner scanner = new Scanner(System.in);
-        String choose = scanner.nextLine();
 
-        switch (choose) {
-            case "HAWAII":
-                Pizza hawaii = new Hawaii("white","pineapple","cheese");
-                System.out.println(hawaii);
-                hawaii.preparing();
-                hawaii.backing();
-                hawaii.packing();
-                break;
-            case "MOZZARELLA":
-                Pizza mozzarella = new Mozarella("white","mozzarella");
-                System.out.println(mozzarella);
-                mozzarella.preparing();
-                mozzarella.backing();
-                mozzarella.packing();
-                break;
-            case "SALAMI":
-                Pizza salami = new Salami("white","salami");
-                System.out.println(salami);
-                salami.preparing();
-                salami.backing();
-                salami.packing();
-                break;
-            default:
-                System.out.println("we don't have this pizza");
-        }
+        do{
+            PizzaType pizzaTypeScanner=null;
+            boolean flag;
+            do {
+                flag=false;
+                System.out.println("We have three pizza types. Enter the following:");
+                System.out.println("SALAMI for Pizza Salami");
+                System.out.println("HAWAII for Pizza Hawaii");
+                System.out.println("MOZZARELLA for Pizza Mozzarella");
 
+                String pizzaChoice = scanner.nextLine();
+                try {
+                    pizzaTypeScanner = PizzaType.valueOf(pizzaChoice.toUpperCase());
+                } catch (IllegalArgumentException exception) {
+                    System.out.println("Please make a valid choice");
+                    flag=true;
+                }
+            }while (flag);//flag true  poka flag true zikl budet prodolschatsa, a kogda wwedut prawilno eto false i loop ende
+            Pizza newPizza = factory.createPizza(pizzaTypeScanner);
+            newPizza.orderPizza();
+
+            System.out.println("Do you want to order another pizza? press no if not or any key if yes");
+        }while(!scanner.nextLine().equalsIgnoreCase("no"));// poka ne naschal no prodolschaem zikl
+        System.out.println("Thank you for your order. Enjoy the pizza");
     }
-    /*
-We have 3 Pizzas: Mozzarella, Salami, Hawaii
-What Pizza would you like to order?
-MOZZARELLA
-You want pizza Mozzarella with mozzarella
-Preparing Pizza Mozzarella
-Backing pizza Mozzarella
-Packing pizza Mozzarella
 
-     */
-    /*
-We have 3 Pizzas: Mozzarella, Salami, Hawaii
-What Pizza would you like to order?
-SALAMI
-You want pizza Salami with salami
-Preparing Pizza Salami
-Backing pizza Salami
-Packing pizza Salami
-     */
-    /*
-We have 3 Pizzas: Mozzarella, Salami, Hawaii
-What Pizza would you like to order?
-HAWAII
-You want Pizza Hawaii with pineapple and cheese
-Preparing Pizza Hawaii
-Backing pizza Hawaii
-Packing pizza Hawaii
-     */
-    /*
-We have 3 Pizzas: Mozzarella, Salami, Hawaii
-What Pizza would you like to order?
-BECON
-we don't have this pizza
-     */
+
+
 }
